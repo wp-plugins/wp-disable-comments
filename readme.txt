@@ -1,0 +1,67 @@
+=== WP Disable Comments ===
+Contributors: benohead
+Donate link: http://benohead.com/donate/
+Tags: comments, disable
+Requires at least: 3.0.1
+Tested up to: 3.9.1
+Stable tag: 0.1
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+
+Disable comments, trackbacks and/or pingbacks globally or for specific post types, categories, tags, referrers and more. In a comprehensive and flexible way. Per site or for a whole network.
+
+== Description ==
+
+This plugin allows administrators to disable comments, trackbacks and/or pingbacks on a site or a network. The goal of this plugin is to be as comprehensive as possible and at the same time provide the flexibility to just as much as you want to.
+
+You can choose what to disable:
+
+* Comments
+* Pingbacks
+* Trackbacks
+* XML-RPC
+* RSD links
+* Recent Comments Widget in Dashboard
+
+You can choose when and where you want to disable it:
+
+* for logged in users
+* for specific post/page IDs (including ranges of IDs)
+* for specific categories
+* for specific tags
+* for specific authors
+* for specific post formats
+* for specific post types
+* for specific languages (this option is only available with the plugin qTranslate or mqTranslate)
+* for specific URL paths
+* for specific referrers
+* for specific IP addresses
+
+If you disable comments or trackbacks for specific post types, the corresponding meta boxes in the post editor will also be removed.
+
+In a multisite environment, you can either activate it for the whole network (the settings will then be available in the network admin page and affect all blogs) or for specific blogs (you can the specify different settings for different blogs).
+
+== Installation ==
+
+1. Upload the folder `wp-disable-comments` to the `/wp-content/plugins/`
+2. Activate the plugin through the 'Plugins' menu in WordPress
+3. Modify the settings to define where comments should be disabled.
+
+== Frequently Asked Questions ==
+
+= How can I contact you with a complaint, a question or a suggestion? =
+Send an email to henri.benoit@gmail.com
+
+== Screenshots ==
+
+1. WP Disable Comments Settings
+
+== Changelog ==
+
+= 0.1 =
+
+* First version.
+
+== Upgrade Notice ==
+
+n.a.
