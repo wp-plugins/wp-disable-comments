@@ -4,7 +4,7 @@ Donate link: http://benohead.com/donate/
 Tags: comments, disable
 Requires at least: 3.0.1
 Tested up to: 3.9.1
-Stable tag: 0.1
+Stable tag: 0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -41,6 +41,8 @@ If you disable comments or trackbacks for specific post types, the corresponding
 
 In a multisite environment, you can either activate it for the whole network (the settings will then be available in the network admin page and affect all blogs) or for specific blogs (you can the specify different settings for different blogs).
 
+As an alternative you can also keep commenting enabled but have the discussion comment checkboxes unchecked by default on pages, posts or any custom post type. This allows your authors to explicitly enable comments but have them disabled by default so that they do not need to remove the checkboxes for every new post.
+
 == Installation ==
 
 1. Upload the folder `wp-disable-comments` to the `/wp-content/plugins/`
@@ -56,7 +58,13 @@ Send an email to henri.benoit@gmail.com
 
 1. WP Disable Comments Settings
 
+2. Disabling the discussion checkboxes by default but without completely disabling commenting.
+
 == Changelog ==
+
+= 0.2 =
+
+* Added option to disable the discussion checkboxes by default but without completely disabling commenting.
 
 = 0.1 =
 

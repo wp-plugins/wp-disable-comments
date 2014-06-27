@@ -12,7 +12,7 @@ if (!class_exists('WordPress_Disable_Comments')) {
         protected $modules;
         protected $modified_types = array();
 
-        const VERSION = '0.1';
+        const VERSION = '0.2';
         const PREFIX = 'wpdc_';
         const DEBUG_MODE = false;
 
@@ -199,8 +199,45 @@ if (!class_exists('WordPress_Disable_Comments')) {
             }
             add_action('widgets_init', array($this, 'unregister_rc_widget'));
 
+            add_filter('pre_option_default_comment_status', array(&$this, 'disable_default_comment_status'));
+            add_filter('pre_option_default_ping_status', array(&$this, 'disable_default_comment_status'));
+
             add_action('wp_loaded', array($this, 'remove_post_type_support'));
             add_action('wp_loaded', array($this, 'add_filter_on_wp_loaded'));
+        }
+
+        public function disable_default_comment_status($default) {
+            $post_type = $this->get_current_post_type();
+            error_log("post_type=".$post_type);
+            $disable_where = $this->modules['WPDC_Settings']->settings['disablewhere'];
+            $disable_checkboxes = $disable_where['disable-checkboxes'];
+            if (isset($post_type) && count($disable_checkboxes) > 0 && in_array($post_type, $disable_checkboxes)) {
+                return "closed";
+            }
+            return $default;
+        }
+
+        function get_current_post_type() {
+            global $post, $typenow, $current_screen;
+
+            //we have a post so we can just get the post type from that
+            if ( $post && $post->post_type )
+                return $post->post_type;
+
+            //check the global $typenow - set in admin.php
+            elseif( $typenow )
+                return $typenow;
+
+            //check the global $current_screen object - set in sceen.php
+            elseif( $current_screen && $current_screen->post_type )
+                return $current_screen->post_type;
+
+            //lastly check the post_type querystring
+            elseif( isset( $_REQUEST['post_type'] ) )
+                return sanitize_key( $_REQUEST['post_type'] );
+
+            //we do not know the post type!
+            return null;
         }
 
         public function get_disable_post_id($disable_where)
@@ -425,13 +462,14 @@ if (!class_exists('WordPress_Disable_Comments')) {
             if ($disable_what['disable-rsdlink'] == 1) {
                 remove_action('wp_head', 'rsd_link');
             }
-            add_action( 'admin_head', array($this, 'remove_meta_boxes' ));
+            add_action('admin_head', array($this, 'remove_meta_boxes'));
             if ($disable_what['disable-rcwidget'] == 1) {
-                unregister_widget( 'WP_Widget_Recent_Comments' );
+                unregister_widget('WP_Widget_Recent_Comments');
             }
         }
 
-        function remove_meta_boxes() {
+        function remove_meta_boxes()
+        {
             $disable_what = $this->modules['WPDC_Settings']->settings['disablewhat'];
             $disable_where = $this->modules['WPDC_Settings']->settings['disablewhere'];
 

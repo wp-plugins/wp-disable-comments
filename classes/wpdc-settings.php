@@ -180,6 +180,7 @@ if (!class_exists('WPDC_Settings')) {
                 "disable-xmlrpc" => false,
                 "disable-rsdlink" => false,
                 "disable-rcwidget" => false,
+                "disable-rcwidget" => false,
             );
 
             $disable_where = array(
@@ -194,6 +195,7 @@ if (!class_exists('WPDC_Settings')) {
                 "disable-url" => "",
                 "disable-referrer" => "",
                 "disable-ipaddress" => "",
+                "disable-checkboxes" => array(),
             );
 
             return array(
@@ -351,6 +353,7 @@ if (!class_exists('WPDC_Settings')) {
             $this->add_settings_field_disablewhere('wpdc_disable-url', 'for specific URL paths');
             $this->add_settings_field_disablewhere('wpdc_disable-referrer', 'for specific referrers');
             $this->add_settings_field_disablewhere('wpdc_disable-ipaddress', 'for specific IP addresses');
+            $this->add_settings_field_disablewhere('wpdc_disable-checkboxes', 'Uncheck discussion comment checkboxes for');
 
             // The settings container
             register_setting('wpdc_settings', 'wpdc_settings', array($this, 'validate_settings'));
@@ -454,6 +457,7 @@ if (!class_exists('WPDC_Settings')) {
             $this->setting_empty_string_if_not_set($new_settings, 'disablewhere', 'disable-url');
             $this->setting_empty_string_if_not_set($new_settings, 'disablewhere', 'disable-referrer');
             $this->setting_empty_string_if_not_set($new_settings, 'disablewhere', 'disable-ipaddress');
+            $this->setting_empty_array_if_not_set($new_settings, 'disablewhere', 'disable-checkboxes');
 
             return $new_settings;
         }

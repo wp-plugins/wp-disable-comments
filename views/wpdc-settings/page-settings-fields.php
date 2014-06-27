@@ -180,4 +180,24 @@ elseif ('wpdc_disable-ipaddress' == $field['label_for']) : ?>
     <input type="text" name="wpdc_settings[disablewhere][disable-ipaddress]"
            id="wpdc_settings[disablewhere][disable-ipaddress]"
            value="<?php echo $settings['disablewhere']['disable-ipaddress']; ?>">
+<?php
+elseif ('wpdc_disable-checkboxes' == $field['label_for']) : ?>
+    <?php $post_types = get_post_types(); ?>
+    <select style="min-width: 190px;" id="wpdc_settings[disablewhere][disable-checkboxes]"
+            name="wpdc_settings[disablewhere][disable-checkboxes][]" size="4"
+            multiple="multiple">
+        <?php
+        foreach ($post_types as $post_type_name) {
+            ?>
+            <option
+                value="<?php echo esc_attr($post_type_name); ?>" <?php echo(in_array($post_type_name, (array)$settings['disablewhere']['disable-checkboxes']) ? 'selected="selected"' : ''); ?>><?php echo esc_html(get_post_type_object($post_type_name)->labels->name); ?></option>
+        <?php
+        }
+        ?>
+    </select>
+    <button id="clear-checkboxes" class="button-secondary"
+            onclick="javascript:jQuery('#wpdc_settings\\[disablewhere\\]\\[disable-checkboxes\\]')[0].selectedIndex = -1;return false;">
+        Clear
+    </button>
+    <p class="description">This can be used to disable the checkboxes by default but without completely disabling commenting.</p>
 <?php endif; ?>
