@@ -4,7 +4,7 @@ Donate link: http://benohead.com/donate/
 Tags: comments, disable
 Requires at least: 3.0.1
 Tested up to: 3.9.1
-Stable tag: 0.2
+Stable tag: 0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -42,6 +42,7 @@ If you disable comments or trackbacks for specific post types, the corresponding
 In a multisite environment, you can either activate it for the whole network (the settings will then be available in the network admin page and affect all blogs) or for specific blogs (you can the specify different settings for different blogs).
 
 As an alternative you can also keep commenting enabled but have the discussion comment checkboxes unchecked by default on pages, posts or any custom post type. This allows your authors to explicitly enable comments but have them disabled by default so that they do not need to remove the checkboxes for every new post.
+You can also disable the comment author URL field or just remove URLs with Google authorship link (to prevent someone from trying to take authorship by posting a comment).
 
 == Installation ==
 
@@ -61,6 +62,11 @@ Send an email to henri.benoit@gmail.com
 2. Disabling the discussion checkboxes by default but without completely disabling commenting.
 
 == Changelog ==
+
+= 0.3 =
+
+* Added option to disable comment author link.
+* Added option to remove comment URLs with Google authorship link.
 
 = 0.2 =
 

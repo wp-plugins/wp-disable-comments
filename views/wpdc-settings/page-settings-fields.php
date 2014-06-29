@@ -35,6 +35,22 @@ elseif ('wpdc_disable-rcwidget' == $field['label_for']) : ?>
            id="wpdc_settings[disablewhat][disable-rcwidget]"
            value="1" <?php checked(1, $settings['disablewhat']['disable-rcwidget']) ?>>
 <?php
+elseif ('wpdc_disable-authorlink' == $field['label_for']) : ?>
+    <input type="checkbox" name="wpdc_settings[disablewhat][disable-authorlink]"
+           id="wpdc_settings[disablewhat][disable-authorlink]"
+           value="1" <?php checked(1, $settings['disablewhat']['disable-authorlink']) ?>>
+<?php
+elseif ('wpdc_disable-urlfield' == $field['label_for']) : ?>
+    <input type="checkbox" name="wpdc_settings[disablewhat][disable-urlfield]"
+           id="wpdc_settings[disablewhat][disable-urlfield]"
+           value="1" <?php checked(1, $settings['disablewhat']['disable-urlfield']) ?>>
+<?php
+elseif ('wpdc_prevent-ownership' == $field['label_for']) : ?>
+    <input type="checkbox" name="wpdc_settings[disablewhat][prevent-ownership]"
+           id="wpdc_settings[disablewhat][prevent-ownership]"
+           value="1" <?php checked(1, $settings['disablewhat']['prevent-ownership']) ?>>
+    <p class="description" style="display: inline;">This setting applies to all comments no matter which criteria are selected below.</p>
+<?php
 elseif ('wpdc_disable-on-logged-in' == $field['label_for']) : ?>
     <input type="checkbox" name="wpdc_settings[disablewhere][disable-on-logged-in]"
            id="wpdc_settings[disablewhere][disable-on-logged-in]"

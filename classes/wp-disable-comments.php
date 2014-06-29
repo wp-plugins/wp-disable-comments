@@ -12,7 +12,7 @@ if (!class_exists('WordPress_Disable_Comments')) {
         protected $modules;
         protected $modified_types = array();
 
-        const VERSION = '0.2';
+        const VERSION = '0.3';
         const PREFIX = 'wpdc_';
         const DEBUG_MODE = false;
 
@@ -182,8 +182,6 @@ if (!class_exists('WordPress_Disable_Comments')) {
          */
         public function register_hook_callbacks()
         {
-            $disable_what = $this->modules['WPDC_Settings']->settings['disablewhat'];
-
             add_action('wpmu_new_blog', __CLASS__ . '::activate_new_site');
             add_action('wp_enqueue_scripts', __CLASS__ . '::load_resources');
             add_action('admin_enqueue_scripts', __CLASS__ . '::load_resources');
@@ -194,9 +192,11 @@ if (!class_exists('WordPress_Disable_Comments')) {
             add_filter('wp_headers', array($this, 'filter_x_pingback'));
             add_filter('rewrite_rules_array', array($this, 'filter_trackback_rewrites'));
             add_filter('bloginfo_url', array($this, 'filter_pingback_url'), 10, 2);
-            if ($disable_what['disable-xmlrpc'] == 1) {
-                add_filter('xmlrpc_methods', array($this, 'filter_xmlrpc_methods'));
-            }
+            add_filter('xmlrpc_methods', array($this, 'filter_xmlrpc_methods'));
+            add_filter('preprocess_comment', array($this, 'filter_preprocess_comment'));
+            add_filter('comment_form_default_fields', array($this, 'filter_comment_form_default_fields'));
+            add_filter('get_comment_author_link', array($this, 'filter_get_comment_author_link'));
+
             add_action('widgets_init', array($this, 'unregister_rc_widget'));
 
             add_filter('pre_option_default_comment_status', array(&$this, 'disable_default_comment_status'));
@@ -206,9 +206,44 @@ if (!class_exists('WordPress_Disable_Comments')) {
             add_action('wp_loaded', array($this, 'add_filter_on_wp_loaded'));
         }
 
-        public function disable_default_comment_status($default) {
+        public function filter_get_comment_author_link( $author_link ){
+            $disable_what = $this->modules['WPDC_Settings']->settings['disablewhat'];
+            if ($disable_what['disable-authorlink'] == 1) {
+                $disable_where = $this->modules['WPDC_Settings']->settings['disablewhere'];
+                if ($this->is_disable_specific($disable_where)) {
+                    return strip_tags( $author_link );
+                }
+            }
+            return $author_link;
+        }
+
+        public function filter_comment_form_default_fields($fields)
+        {
+            $disable_what = $this->modules['WPDC_Settings']->settings['disablewhat'];
+            if ($disable_what['disable-urlfield'] == 1) {
+                $disable_where = $this->modules['WPDC_Settings']->settings['disablewhere'];
+                if ($this->is_disable_specific($disable_where)) {
+                    unset($fields['url']);
+                }
+            }
+            return $fields;
+        }
+
+        public function filter_preprocess_comment($commentdata)
+        {
+            $disable_what = $this->modules['WPDC_Settings']->settings['disablewhat'];
+            if ($disable_what['prevent-ownership'] == 1) {
+                if (preg_match('/http(s)?:\/\/plus\.google\.com(.*)$/', $commentdata['comment_author_url'])) {
+                    unset($commentdata['comment_author_url']);
+                }
+            }
+            return $commentdata;
+        }
+
+        public function disable_default_comment_status($default)
+        {
             $post_type = $this->get_current_post_type();
-            error_log("post_type=".$post_type);
+            error_log("post_type=" . $post_type);
             $disable_where = $this->modules['WPDC_Settings']->settings['disablewhere'];
             $disable_checkboxes = $disable_where['disable-checkboxes'];
             if (isset($post_type) && count($disable_checkboxes) > 0 && in_array($post_type, $disable_checkboxes)) {
@@ -217,24 +252,25 @@ if (!class_exists('WordPress_Disable_Comments')) {
             return $default;
         }
 
-        function get_current_post_type() {
+        function get_current_post_type()
+        {
             global $post, $typenow, $current_screen;
 
             //we have a post so we can just get the post type from that
-            if ( $post && $post->post_type )
+            if ($post && $post->post_type)
                 return $post->post_type;
 
             //check the global $typenow - set in admin.php
-            elseif( $typenow )
+            elseif ($typenow)
                 return $typenow;
 
             //check the global $current_screen object - set in sceen.php
-            elseif( $current_screen && $current_screen->post_type )
+            elseif ($current_screen && $current_screen->post_type)
                 return $current_screen->post_type;
 
             //lastly check the post_type querystring
-            elseif( isset( $_REQUEST['post_type'] ) )
-                return sanitize_key( $_REQUEST['post_type'] );
+            elseif (isset($_REQUEST['post_type']))
+                return sanitize_key($_REQUEST['post_type']);
 
             //we do not know the post type!
             return null;
@@ -370,21 +406,23 @@ if (!class_exists('WordPress_Disable_Comments')) {
         function filter_xmlrpc_methods($methods)
         {
             $disable_what = $this->modules['WPDC_Settings']->settings['disablewhat'];
-            if ($disable_what['disable-pingbacks'] == 1) {
-                unset($methods['pingback.ping']);
-                unset($methods['pingback.extensions.getPingbacks']);
-            }
-            if ($disable_what['disable-comments'] == 1) {
-                unset($methods['wp.getCommentCount']);
-                unset($methods['wp.getComment']);
-                unset($methods['wp.getComments']);
-                unset($methods['wp.deleteComment']);
-                unset($methods['wp.editComment']);
-                unset($methods['wp.newComment']);
-                unset($methods['wp.getCommentStatusList']);
-            }
-            if ($disable_what['disable-trackbacks'] == 1) {
-                unset($methods['mt.getTrackbackPings']);
+            if ($disable_what['disable-xmlrpc'] == 1) {
+                if ($disable_what['disable-pingbacks'] == 1) {
+                    unset($methods['pingback.ping']);
+                    unset($methods['pingback.extensions.getPingbacks']);
+                }
+                if ($disable_what['disable-comments'] == 1) {
+                    unset($methods['wp.getCommentCount']);
+                    unset($methods['wp.getComment']);
+                    unset($methods['wp.getComments']);
+                    unset($methods['wp.deleteComment']);
+                    unset($methods['wp.editComment']);
+                    unset($methods['wp.newComment']);
+                    unset($methods['wp.getCommentStatusList']);
+                }
+                if ($disable_what['disable-trackbacks'] == 1) {
+                    unset($methods['mt.getTrackbackPings']);
+                }
             }
             return $methods;
         }

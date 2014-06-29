@@ -180,7 +180,9 @@ if (!class_exists('WPDC_Settings')) {
                 "disable-xmlrpc" => false,
                 "disable-rsdlink" => false,
                 "disable-rcwidget" => false,
-                "disable-rcwidget" => false,
+                "disable-urlfield" => false,
+                "disable-authorlink" => false,
+                "prevent-ownership" => false,
             );
 
             $disable_where = array(
@@ -334,6 +336,9 @@ if (!class_exists('WPDC_Settings')) {
             $this->add_settings_field_disablewhat('wpdc_disable-xmlrpc', 'XML-RPC');
             $this->add_settings_field_disablewhat('wpdc_disable-rsdlink', 'RSD links');
             $this->add_settings_field_disablewhat('wpdc_disable-rcwidget', 'Recent Comments Widget in Dashboard');
+            $this->add_settings_field_disablewhat('wpdc_disable-urlfield', 'URL Field in comment form');
+            $this->add_settings_field_disablewhat('wpdc_disable-authorlink', 'Comment author link');
+            $this->add_settings_field_disablewhat('wpdc_prevent-ownership', 'Comment URL with Google authorship link');
 
             /*
              * Where Section
@@ -437,6 +442,9 @@ if (!class_exists('WPDC_Settings')) {
             $this->setting_zero_if_not_set($new_settings, 'disablewhat', 'disable-xmlrpc');
             $this->setting_zero_if_not_set($new_settings, 'disablewhat', 'disable-rsdlink');
             $this->setting_zero_if_not_set($new_settings, 'disablewhat', 'disable-rcwidget');
+            $this->setting_zero_if_not_set($new_settings, 'disablewhat', 'disable-urlfield');
+            $this->setting_zero_if_not_set($new_settings, 'disablewhat', 'disable-authorlink');
+            $this->setting_zero_if_not_set($new_settings, 'disablewhat', 'prevent-ownership');
 
             /*
              * Where Settings
