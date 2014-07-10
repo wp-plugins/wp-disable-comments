@@ -1,5 +1,5 @@
 === WP Disable Comments ===
-Contributors: benohead
+Contributors: benohead, amazingweb-gmbh
 Donate link: http://benohead.com/donate/
 Tags: comments, disable
 Requires at least: 3.0.1
