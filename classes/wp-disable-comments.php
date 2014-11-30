@@ -12,7 +12,7 @@ if (!class_exists('WordPress_Disable_Comments')) {
         protected $modules;
         protected $modified_types = array();
 
-        const VERSION = '0.3';
+        const VERSION = '0.3.1';
         const PREFIX = 'wpdc_';
         const DEBUG_MODE = false;
 
@@ -243,7 +243,6 @@ if (!class_exists('WordPress_Disable_Comments')) {
         public function disable_default_comment_status($default)
         {
             $post_type = $this->get_current_post_type();
-            error_log("post_type=" . $post_type);
             $disable_where = $this->modules['WPDC_Settings']->settings['disablewhere'];
             $disable_checkboxes = $disable_where['disable-checkboxes'];
             if (isset($post_type) && count($disable_checkboxes) > 0 && in_array($post_type, $disable_checkboxes)) {
@@ -337,32 +336,32 @@ if (!class_exists('WordPress_Disable_Comments')) {
 
         public function get_disable_category($disable_where)
         {
-            return $this->to_int_array($disable_where['disable-category']);
+            return isset($disable_where['disable-category']) ? $this->to_int_array($disable_where['disable-category']) : array();
         }
 
         public function get_disable_tag($disable_where)
         {
-            return $this->to_int_array($disable_where['disable-tag']);
+            return isset($disable_where['disable-tag']) ? $this->to_int_array($disable_where['disable-tag']) : array();
         }
 
         public function get_disable_user($disable_where)
         {
-            return $this->to_int_array($disable_where['disable-user']);
+            return isset($disable_where['disable-user']) ? $this->to_int_array($disable_where['disable-user']) : array();
         }
 
         public function get_disable_format($disable_where)
         {
-            return $disable_where['disable-format'];
+            return isset($disable_where['disable-format']) ? $disable_where['disable-format'] : array();
         }
 
         public function get_disable_post_type($disable_where)
         {
-            return $disable_where['disable-post-type'];
+            return isset($disable_where['disable-post-type']) ? $disable_where['disable-post-type'] : array();
         }
 
         public function get_disable_language($disable_where)
         {
-            return $disable_where['disable-language'];
+            return isset($disable_where['disable-language']) ? $disable_where['disable-language'] : array();
         }
 
         public function in_array_substr($needle, $haystack)
@@ -491,17 +490,17 @@ if (!class_exists('WordPress_Disable_Comments')) {
 
             add_filter('comments_open', array($this, 'filter_comments_open'));
             add_action('template_redirect', array($this, 'override_comment_template'));
-            if ($disable_what['disable-pingbacks'] == 1) {
+            if (isset($disable_what['disable-pingbacks']) && $disable_what['disable-pingbacks'] == 1) {
                 add_filter('pre_update_default_ping_status', '__return_false');
                 add_filter('pre_option_default_ping_status', '__return_zero');
                 add_filter('pre_update_default_pingback_flag', '__return_false');
                 add_filter('pre_option_default_pingback_flag', '__return_zero');
             }
-            if ($disable_what['disable-rsdlink'] == 1) {
+            if (isset($disable_what['disable-rsdlink']) && $disable_what['disable-rsdlink'] == 1) {
                 remove_action('wp_head', 'rsd_link');
             }
             add_action('admin_head', array($this, 'remove_meta_boxes'));
-            if ($disable_what['disable-rcwidget'] == 1) {
+            if (isset($disable_what['disable-rcwidget']) && $disable_what['disable-rcwidget'] == 1) {
                 unregister_widget('WP_Widget_Recent_Comments');
             }
         }
@@ -511,7 +510,7 @@ if (!class_exists('WordPress_Disable_Comments')) {
             $disable_what = $this->modules['WPDC_Settings']->settings['disablewhat'];
             $disable_where = $this->modules['WPDC_Settings']->settings['disablewhere'];
 
-            if ($disable_what['disable-comments'] == 1) {
+            if (isset($disable_what['disable-comments']) && $disable_what['disable-comments'] == 1) {
                 $disable_post_type = $this->get_disable_post_type($disable_where);
                 if (!empty($disable_post_type)) {
                     foreach ($disable_post_type as $post_type) {
@@ -520,7 +519,7 @@ if (!class_exists('WordPress_Disable_Comments')) {
                     }
                 }
             }
-            if ($disable_what['disable-trackbacks'] == 1) {
+            if (isset($disable_what['disable-trackbacks']) && $disable_what['disable-trackbacks'] == 1) {
                 $disable_post_type = $this->get_disable_post_type($disable_where);
                 if (!empty($disable_post_type)) {
                     foreach ($disable_post_type as $post_type) {
@@ -533,7 +532,7 @@ if (!class_exists('WordPress_Disable_Comments')) {
         function filter_comments_open($open)
         {
             $disable_what = $this->modules['WPDC_Settings']->settings['disablewhat'];
-            if ($disable_what['disable-comments'] == 1) {
+            if (isset($disable_what['disable-comments']) && $disable_what['disable-comments'] == 1) {
                 $disable_where = $this->modules['WPDC_Settings']->settings['disablewhere'];
                 if ($this->is_disable_specific($disable_where)) {
                     return false;
@@ -545,7 +544,7 @@ if (!class_exists('WordPress_Disable_Comments')) {
         function override_comment_template()
         {
             $disable_what = $this->modules['WPDC_Settings']->settings['disablewhat'];
-            if ($disable_what['disable-comments'] == 1) {
+            if (isset($disable_what['disable-comments']) && $disable_what['disable-comments'] == 1) {
                 $disable_where = $this->modules['WPDC_Settings']->settings['disablewhere'];
                 if (is_singular() && $this->is_disable_specific($disable_where)) {
                     add_filter('comments_template', array($this, 'empty_comments_template'));

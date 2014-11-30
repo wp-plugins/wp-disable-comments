@@ -7,54 +7,54 @@
 <?php if ('wpdc_disable-comments' == $field['label_for']) : ?>
     <input type="checkbox" name="wpdc_settings[disablewhat][disable-comments]"
            id="wpdc_settings[disablewhat][disable-comments]"
-           value="1" <?php checked(1, $settings['disablewhat']['disable-comments']) ?>>
+           value="1" <?php checked(1, isset($settings['disablewhat']['disable-comments']) ? $settings['disablewhat']['disable-comments'] : 0) ?>>
 <?php
 elseif ('wpdc_disable-pingbacks' == $field['label_for']) : ?>
     <input type="checkbox" name="wpdc_settings[disablewhat][disable-pingbacks]"
            id="wpdc_settings[disablewhat][disable-pingbacks]"
-           value="1" <?php checked(1, $settings['disablewhat']['disable-pingbacks']) ?>>
+           value="1" <?php checked(1, isset($settings['disablewhat']['disable-pingbacks']) ? $settings['disablewhat']['disable-pingbacks'] : 0) ?>>
 <?php
 elseif ('wpdc_disable-trackbacks' == $field['label_for']) : ?>
     <input type="checkbox" name="wpdc_settings[disablewhat][disable-trackbacks]"
            id="wpdc_settings[disablewhat][disable-trackbacks]"
-           value="1" <?php checked(1, $settings['disablewhat']['disable-trackbacks']) ?>>
+           value="1" <?php checked(1, isset($settings['disablewhat']['disable-trackbacks']) ? $settings['disablewhat']['disable-trackbacks'] : 0) ?>>
 <?php
 elseif ('wpdc_disable-xmlrpc' == $field['label_for']) : ?>
     <input type="checkbox" name="wpdc_settings[disablewhat][disable-xmlrpc]"
            id="wpdc_settings[disablewhat][disable-xmlrpc]"
-           value="1" <?php checked(1, $settings['disablewhat']['disable-xmlrpc']) ?>>
+           value="1" <?php checked(1, isset($settings['disablewhat']['disable-xmlrpc']) ? $settings['disablewhat']['disable-xmlrpc'] : 0) ?>>
     <p class="description" style="display: inline;">This setting is to be used in combination with the settings above.</p>
 <?php
 elseif ('wpdc_disable-rsdlink' == $field['label_for']) : ?>
     <input type="checkbox" name="wpdc_settings[disablewhat][disable-rsdlink]"
            id="wpdc_settings[disablewhat][disable-rsdlink]"
-           value="1" <?php checked(1, $settings['disablewhat']['disable-rsdlink']) ?>>
+           value="1" <?php checked(1, isset($settings['disablewhat']['disable-rsdlink']) ? $settings['disablewhat']['disable-rsdlink'] : 0) ?>>
 <?php
 elseif ('wpdc_disable-rcwidget' == $field['label_for']) : ?>
     <input type="checkbox" name="wpdc_settings[disablewhat][disable-rcwidget]"
            id="wpdc_settings[disablewhat][disable-rcwidget]"
-           value="1" <?php checked(1, $settings['disablewhat']['disable-rcwidget']) ?>>
+           value="1" <?php checked(1, isset($settings['disablewhat']['disable-rcwidget']) ? $settings['disablewhat']['disable-rcwidget'] : 0) ?>>
 <?php
 elseif ('wpdc_disable-authorlink' == $field['label_for']) : ?>
     <input type="checkbox" name="wpdc_settings[disablewhat][disable-authorlink]"
            id="wpdc_settings[disablewhat][disable-authorlink]"
-           value="1" <?php checked(1, $settings['disablewhat']['disable-authorlink']) ?>>
+           value="1" <?php checked(1, isset($settings['disablewhat']['disable-authorlink']) ? $settings['disablewhat']['disable-authorlink'] : 0) ?>>
 <?php
 elseif ('wpdc_disable-urlfield' == $field['label_for']) : ?>
     <input type="checkbox" name="wpdc_settings[disablewhat][disable-urlfield]"
            id="wpdc_settings[disablewhat][disable-urlfield]"
-           value="1" <?php checked(1, $settings['disablewhat']['disable-urlfield']) ?>>
+           value="1" <?php checked(1, isset($settings['disablewhat']['disable-urlfield']) ? $settings['disablewhat']['disable-urlfield'] : 0) ?>>
 <?php
 elseif ('wpdc_prevent-ownership' == $field['label_for']) : ?>
     <input type="checkbox" name="wpdc_settings[disablewhat][prevent-ownership]"
            id="wpdc_settings[disablewhat][prevent-ownership]"
-           value="1" <?php checked(1, $settings['disablewhat']['prevent-ownership']) ?>>
+           value="1" <?php checked(1, isset($settings['disablewhat']['prevent-ownership']) ? $settings['disablewhat']['prevent-ownership'] : 0) ?>>
     <p class="description" style="display: inline;">This setting applies to all comments no matter which criteria are selected below.</p>
 <?php
 elseif ('wpdc_disable-on-logged-in' == $field['label_for']) : ?>
     <input type="checkbox" name="wpdc_settings[disablewhere][disable-on-logged-in]"
            id="wpdc_settings[disablewhere][disable-on-logged-in]"
-           value="1" <?php checked(1, $settings['disablewhere']['disable-on-logged-in']) ?>>
+           value="1" <?php checked(1, isset($settings['disablewhat']['disable-on-logged-in']) ? $settings['disablewhere']['disable-on-logged-in'] : 0) ?>>
 <?php
 elseif ('wpdc_disable-post-id' == $field['label_for']) : ?>
     <input type="text" name="wpdc_settings[disablewhere][disable-post-id]"
@@ -68,7 +68,7 @@ elseif ('wpdc_disable-category' == $field['label_for']) : ?>
             multiple="multiple">
         <?php foreach ($categories as $category) { ?>
             <option
-                value="<?php echo esc_attr($category->term_id); ?>" <?php echo(in_array($category->term_id, (array)$settings['disablewhere']['disable-category']) ? 'selected="selected"' : ''); ?>><?php echo esc_html($category->name); ?></option>
+                value="<?php echo esc_attr($category->term_id); ?>" <?php echo(isset($settings['disablewhere']['disable-category']) && in_array($category->term_id, (array)$settings['disablewhere']['disable-category']) ? 'selected="selected"' : ''); ?>><?php echo esc_html($category->name); ?></option>
         <?php } ?>
     </select>
     <button id="clear-category" class="button-secondary"
@@ -83,7 +83,7 @@ elseif ('wpdc_disable-tag' == $field['label_for']) : ?>
             multiple="multiple">
         <?php foreach ($tags as $tag) { ?>
             <option
-                value="<?php echo esc_attr($tag->term_id); ?>" <?php echo(in_array($tag->term_id, (array)$settings['disablewhere']['disable-tag']) ? 'selected="selected"' : ''); ?>><?php echo esc_html($tag->name); ?></option>
+                value="<?php echo esc_attr($tag->term_id); ?>" <?php echo(isset($settings['disablewhere']['disable-tag']) && in_array($tag->term_id, (array)$settings['disablewhere']['disable-tag']) ? 'selected="selected"' : ''); ?>><?php echo esc_html($tag->name); ?></option>
         <?php } ?>
     </select>
     <button id="clear-tag" class="button-secondary"
@@ -107,7 +107,7 @@ elseif ('wpdc_disable-user' == $field['label_for']) : ?>
             multiple="multiple">
         <?php foreach ($users as $user) { ?>
             <option
-                value="<?php echo esc_attr($user->ID); ?>" <?php echo(in_array($user->ID, (array)$settings['disablewhere']['disable-user']) ? 'selected="selected"' : ''); ?>><?php echo esc_html($user->display_name); ?></option>
+                value="<?php echo esc_attr($user->ID); ?>" <?php echo(isset($settings['disablewhere']['disable-user']) && in_array($user->ID, (array)$settings['disablewhere']['disable-user']) ? 'selected="selected"' : ''); ?>><?php echo esc_html($user->display_name); ?></option>
         <?php } ?>
     </select>
     <button id="clear-user" class="button-secondary"
@@ -124,12 +124,12 @@ elseif ('wpdc_disable-format' == $field['label_for']) : ?>
         if (is_array($formats) && count($formats) > 0) {
             ?>
             <option
-                value="0" <?php echo(in_array('0', (array)$settings['disablewhere']['disable-format']) ? 'selected="selected"' : ''); ?>><?php echo get_post_format_string('standard'); ?></option>
+                value="0" <?php echo(isset($settings['disablewhere']['disable-format']) && in_array('0', (array)$settings['disablewhere']['disable-format']) ? 'selected="selected"' : ''); ?>><?php echo get_post_format_string('standard'); ?></option>
             <?php
             foreach ($formats[0] as $format_name) {
                 ?>
                 <option
-                    value="<?php echo esc_attr($format_name); ?>" <?php echo(in_array($format_name, (array)$settings['disablewhere']['disable-format']) ? 'selected="selected"' : ''); ?>><?php echo esc_html(get_post_format_string($format_name)); ?></option>
+                    value="<?php echo esc_attr($format_name); ?>" <?php echo(isset($settings['disablewhere']['disable-format']) && in_array($format_name, (array)$settings['disablewhere']['disable-format']) ? 'selected="selected"' : ''); ?>><?php echo esc_html(get_post_format_string($format_name)); ?></option>
             <?php
             }
         }
@@ -149,7 +149,7 @@ elseif ('wpdc_disable-post-type' == $field['label_for']) : ?>
         foreach ($post_types as $post_type_name) {
             ?>
             <option
-                value="<?php echo esc_attr($post_type_name); ?>" <?php echo(in_array($post_type_name, (array)$settings['disablewhere']['disable-post-type']) ? 'selected="selected"' : ''); ?>><?php echo esc_html(get_post_type_object($post_type_name)->labels->name); ?></option>
+                value="<?php echo esc_attr($post_type_name); ?>" <?php echo(isset($settings['disablewhere']['disable-post-type']) && in_array($post_type_name, (array)$settings['disablewhere']['disable-post-type']) ? 'selected="selected"' : ''); ?>><?php echo esc_html(get_post_type_object($post_type_name)->labels->name); ?></option>
         <?php
         }
         ?>
@@ -168,7 +168,7 @@ elseif ('wpdc_disable-language' == $field['label_for'] && function_exists('qtran
         foreach ($languages as $language_name) {
             ?>
             <option
-                value="<?php echo esc_attr($language_name); ?>" <?php echo(in_array($language_name, (array)$settings['disablewhere']['disable-language']) ? 'selected="selected"' : ''); ?>><?php echo $q_config['language_name'][$language_name]; ?></option>
+                value="<?php echo esc_attr($language_name); ?>" <?php echo(isset($settings['disablewhere']['disable-language']) && in_array($language_name, (array)$settings['disablewhere']['disable-language']) ? 'selected="selected"' : ''); ?>><?php echo $q_config['language_name'][$language_name]; ?></option>
         <?php
         }
         ?>
@@ -206,7 +206,7 @@ elseif ('wpdc_disable-checkboxes' == $field['label_for']) : ?>
         foreach ($post_types as $post_type_name) {
             ?>
             <option
-                value="<?php echo esc_attr($post_type_name); ?>" <?php echo(in_array($post_type_name, (array)$settings['disablewhere']['disable-checkboxes']) ? 'selected="selected"' : ''); ?>><?php echo esc_html(get_post_type_object($post_type_name)->labels->name); ?></option>
+                value="<?php echo esc_attr($post_type_name); ?>" <?php echo(isset($settings['disablewhere']['disable-checkboxes']) && in_array($post_type_name, (array)$settings['disablewhere']['disable-checkboxes']) ? 'selected="selected"' : ''); ?>><?php echo esc_html(get_post_type_object($post_type_name)->labels->name); ?></option>
         <?php
         }
         ?>

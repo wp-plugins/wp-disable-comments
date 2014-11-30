@@ -19,7 +19,7 @@ function wpdcWrapper($) {
          * Registers event handlers
          */
         registerEventHandlers: function () {
-        },
+        }
     }; // end wpdc
 
     $(document).ready(wpdc.init);
