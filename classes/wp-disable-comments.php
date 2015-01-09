@@ -12,7 +12,7 @@ if (!class_exists('WordPress_Disable_Comments')) {
         protected $modules;
         protected $modified_types = array();
 
-        const VERSION = '0.3.1';
+        const VERSION = '0.3.3';
         const PREFIX = 'wpdc_';
         const DEBUG_MODE = false;
 
@@ -245,6 +245,8 @@ if (!class_exists('WordPress_Disable_Comments')) {
             $post_type = $this->get_current_post_type();
             $disable_where = $this->modules['WPDC_Settings']->settings['disablewhere'];
             $disable_checkboxes = $disable_where['disable-checkboxes'];
+            error_log("post_type=".$post_type);
+            error_log("disable_checkboxes=".print_r($disable_checkboxes, true));
             if (isset($post_type) && count($disable_checkboxes) > 0 && in_array($post_type, $disable_checkboxes)) {
                 return "closed";
             }
@@ -270,6 +272,10 @@ if (!class_exists('WordPress_Disable_Comments')) {
             //lastly check the post_type querystring
             elseif (isset($_REQUEST['post_type']))
                 return sanitize_key($_REQUEST['post_type']);
+
+            elseif ($current_screen && $current_screen->id && $current_screen->id=='async-upload') {
+                return "attachment";
+            }
 
             //we do not know the post type!
             return null;
@@ -400,7 +406,6 @@ if (!class_exists('WordPress_Disable_Comments')) {
                 || (is_user_logged_in() && $disable_where['disable-on-logged-in'] == 1)
             );
         }
-
 
         function filter_xmlrpc_methods($methods)
         {

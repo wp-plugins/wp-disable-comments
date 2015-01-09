@@ -4,7 +4,7 @@ Donate link: http://benohead.com/donate/
 Tags: comments, disable
 Requires at least: 3.0.1
 Tested up to: 4.0.1
-Stable tag: 0.3.1
+Stable tag: 0.3.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -63,7 +63,15 @@ Send an email to henri.benoit@gmail.com
 
 == Changelog ==
 
-= 0.3 =
+= 0.3.3 =
+
+* Fixed disabling checkboxes for post type Media
+
+= 0.3.2 =
+
+* Fixed plugin description and change log entry for 0.3.1
+
+= 0.3.1 =
 
 * Fixed strict PHP warnings
 

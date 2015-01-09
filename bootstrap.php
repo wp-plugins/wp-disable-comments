@@ -2,8 +2,8 @@
 /*
 Plugin Name: WP Disable Comments
 Plugin URI:  https://wordpress.org/plugins/wp-disable-comments/
-Description: A plugin to place adsense blocks on your site
-Version:     0.3.1
+Description: Disable comments, trackbacks and/or pingbacks
+Version:     0.3.3
 Author:      Henri Benoit
 Author URI:  http://benohead.com
 */
