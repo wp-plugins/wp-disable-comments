@@ -3,8 +3,8 @@ Contributors: benohead, amazingweb-gmbh
 Donate link: http://benohead.com/donate/
 Tags: comments, disable
 Requires at least: 3.0.1
-Tested up to: 4.1
-Stable tag: 0.3.3
+Tested up to: 4.1.1
+Stable tag: 0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -62,6 +62,10 @@ Send an email to henri.benoit@gmail.com
 2. Disabling the discussion checkboxes by default but without completely disabling commenting.
 
 == Changelog ==
+
+= 0.4 =
+
+* Added checks to prevent warnings for undefined variables
 
 = 0.3.3 =
 

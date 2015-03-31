@@ -3,7 +3,7 @@
 Plugin Name: WP Disable Comments
 Plugin URI:  https://wordpress.org/plugins/wp-disable-comments/
 Description: Disable comments, trackbacks and/or pingbacks
-Version:     0.3.3
+Version:     0.4
 Author:      Henri Benoit
 Author URI:  http://benohead.com
 */
